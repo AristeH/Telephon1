@@ -14,17 +14,10 @@ namespace Telephon.Models
         public mess Parameters { get; set; }
         public string Image { get; set; }
         public DelegateCommand<mess> com { get; set; }
+       
     }
 
-    //public Buttons(string parameters, DelegateCommand<mess> com1)
-    //{
-    //    XDocument xdoc = XDocument.Parse(parameters);
 
-    //    foreach (XElement stroca in xdoc.Element("listform").Elements("buttons"))
-    //    {
-    //        ElementsButtonsForm.Add(new ButtonForm { Name = stroca.Element("name").Value, com = com1 });
-    //    }
-    //}
-    
+
 }
 
