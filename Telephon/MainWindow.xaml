@@ -1,0 +1,32 @@
+﻿<Window x:Class="Telephon.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Telephon"
+        xmlns:vm="clr-namespace:Telephon.ViewModels"
+        xmlns:View="clr-namespace:Telephon.Views"
+        mc:Ignorable="d"
+        Title="{Binding Title}"
+        Height="900" Width="900" >
+    
+    <Window.DataContext>
+        <vm:VM_MainWindow></vm:VM_MainWindow>
+    </Window.DataContext>
+    
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Top" >
+            <View:VUC_ListButtons  DataContext="{Binding ButtonsTop, Mode=OneWay}"/>
+        </GroupBox>
+        <StatusBar DockPanel.Dock="Bottom">
+            <View:VUC_ListButtons  DataContext="{Binding ButtonsDown}"/>
+        </StatusBar>
+
+        <GroupBox   Header="Ввод пароля">
+            <View:VUC_shapka  DataContext="{Binding stroki}"/>
+        </GroupBox>
+
+        
+    </DockPanel>
+
+</Window>
