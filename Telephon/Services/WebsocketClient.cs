@@ -13,12 +13,12 @@ namespace Telephon.Services
 {
     public struct mess
     {
-        public string action;      // функция
-        public string content;     // доп информация к действию
+        public string action;      // имя функции
+        public string content;     // доп информация
         public string sender;      // оправитель
         public string recipient;   // получатель
 
-        public string []parameters; // праметры к функция
+        public string []parameters; // праметры к функции
     }
     class WebsocketClient
     {
@@ -69,7 +69,6 @@ namespace Telephon.Services
         public void websocket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
                MessageReceived(e.Message);
-          
         }
 
         public void sendMessage(mess Message)
@@ -80,8 +79,6 @@ namespace Telephon.Services
                 websocket.Send(json);
             }
         }
-
-
     }
 }
 

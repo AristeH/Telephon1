@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Xml.Linq;
 using Telephon.Services;
@@ -10,38 +11,54 @@ namespace Telephon.Models
 {
     class FillCustomElements
     {
-        static public IList<ButtonForm> ButtonsFill(string parameters, DelegateCommand<mess> com1)
+        static public IList<ButtonForm> ButtonsFill(XElement parameters, DelegateCommand<mess> com1)
         {
             IList<ButtonForm> Buttons4 = new List<ButtonForm>();
-            XDocument xdoc = XDocument.Parse(parameters);
-
-            foreach (XElement stroca in xdoc.Element("listform").Elements("buttons"))
+            foreach (XElement stroca in parameters.Elements("buttonstop"))
             {
                 Buttons4.Add(new ButtonForm { Name = stroca.Element("name").Value, com = com1 });
             }
             return Buttons4;
         }
-
-        static public List<arrayFieldSection> ShapkaFill(string parameters)
-        { 
-            XDocument xdoc = XDocument.Parse(parameters);
-            List<arrayFieldSection> stroki1 = new List<arrayFieldSection>();
-            foreach (XElement stroca in xdoc.Element("listform").Elements("stroki"))
-            {
-                arrayFieldSection afs = new arrayFieldSection();
-                afs.fields = new List<FieldSection>();
-                foreach (XElement field in stroca.Elements("fields"))
+        // распарсим описание полей(колонок грида), 
+        // функция возвращает список полей содержащий имя, тип(или значение), роль доступа
+        static public List<FieldSection> FieldsFill(XElement parameters)
+        {
+                var afs = new List<FieldSection>(); 
+                foreach (XElement field in parameters.Elements("fields"))
                 {
                     FieldSection fs = new FieldSection();
                     fs.name = field.Element("name").Value;
-                    fs.value = field.Element("value").Value;
-                    fs.buttons = field.Element("buttons").Value;
-                    afs.fields.Add(fs);
+                fs.value = field.Element("value").Value;
+                fs.tip = field.Element("tip").Value;
+                fs.buttons = field.Element("buttons").Value;
+                    afs.Add(fs);
                 }
+            return afs;
+        }
+
+        static public List<List<FieldSection>> ShapkaFill(XElement parameters)
+        {
+            List<List<FieldSection>> stroki1 = new List<List<FieldSection>>();
+            foreach (XElement stroca in parameters.Elements("stroki"))
+            {
+                List<FieldSection> afs =  FieldsFill( stroca);
                 stroki1.Add(afs);
             }
             return stroki1;
-
         }
+
+        static public List<string> RecsFill(XElement parameters)
+        {
+            var recs = new List<string>();
+            foreach (XElement field in parameters.Elements("Recs"))
+            {
+                recs.Add(field.Value);
+            }
+            return recs;
+        }
+
+
+        
     }
 }

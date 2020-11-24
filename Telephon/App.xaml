@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:Telephon"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate x:Key="CustomTemplate">
+            <Border Padding="3" Background="Purple">
+                
+            </Border>
+        </DataTemplate> 
     </Application.Resources>
+
 </Application>

@@ -16,17 +16,20 @@
     
     <DockPanel>
         <GroupBox DockPanel.Dock="Top" >
-            <View:VUC_ListButtons  DataContext="{Binding ButtonsTop, Mode=OneWay}"/>
+            <View:VUC_ListButtons  DataContext="{Binding ButtonsTop}"/>
         </GroupBox>
         <StatusBar DockPanel.Dock="Bottom">
             <View:VUC_ListButtons  DataContext="{Binding ButtonsDown}"/>
         </StatusBar>
 
-        <GroupBox   Header="Ввод пароля">
+        <GroupBox   Header="Список полей">
             <View:VUC_shapka  DataContext="{Binding stroki}"/>
         </GroupBox>
+        <GroupBox   Header="Список полей">
+            <View:VUC_grid  DataContext="{Binding grid}"/>
+        </GroupBox>
 
-        
+
     </DockPanel>
 
 </Window>

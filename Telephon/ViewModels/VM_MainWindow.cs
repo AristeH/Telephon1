@@ -1,39 +1,28 @@
 ﻿using DevExpress.Mvvm;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using Telephon.Models;
-using Telephon.Commands;
-using System.Windows;
-using System.Collections.ObjectModel;
-using Telephon.Services;
+using System.Windows.Controls;
 using System.Windows.Threading;
-using Telephon.Views;
 using System.Xml.Linq;
-using System.ComponentModel;
+using Telephon.Models;
+using Telephon.Services;
 using static Telephon.Models.shapka;
 
 namespace Telephon.ViewModels
 {
     class VM_MainWindow : ViewModelBase
     {
-
-          
-
         public WebsocketClient ws;
         public DelegateCommand<mess> wsSendCommand { get; private set; }
         public IList<ButtonForm> ButtonsTop { get; set; } = new List<ButtonForm>();
-        public IList<ButtonForm> ButtonsDown { get; set; } = new List<ButtonForm>();
-        public List<arrayFieldSection> stroki { get; set; } = new List<arrayFieldSection>();
-
+        public IList<ButtonForm> ButtonsDown { get; set; }
+        public List<List<FieldSection>> stroki { get; set; }
+        public grid grid { get; set; }
         public string Title { get; set; }
         public string EditBox { get; set; }
         
 
         void wsSendCommandExecute(mess sendmes)
         {
-
             if (!ws.is_connected)
             {
                 ws.initWebSocketClient("ws://127.0.0.1:8080/telephon");
@@ -49,16 +38,22 @@ namespace Telephon.ViewModels
         public void Show_String(string message) // Обработчик события соответствующий сигнатуре делегата. На него мы должны добавить ссылку.
         {
             EditBox = message;
-          
-           string[] mass =  message.Split(";");
+            string[] mass =  message.Split(";:");
+            foreach (string me in mass)
+                switch (me)
+                {
+                    case "getform":
+                        XDocument xdoc = XDocument.Parse(mass[1]);
+                        ButtonsTop.Clear();
+                        ButtonsTop = FillCustomElements.ButtonsFill( xdoc.Element("UserForm"), wsSendCommand); 
+                        stroki = FillCustomElements.ShapkaFill(xdoc.Element("UserForm"));
+                        grid =  new grid(xdoc.Element("UserForm"));   
+                        break;
 
-            ButtonsTop.Clear();
-            
-            ButtonsTop = FillCustomElements.ButtonsFill(mass[1], wsSendCommand); 
-            stroki = FillCustomElements.ShapkaFill(mass[1]);
 
+            } 
         }
-
+      
         public VM_MainWindow()
         {
             ws = new WebsocketClient();
@@ -74,10 +69,8 @@ namespace Telephon.ViewModels
                 content = "login",
                 parameters = new[] { "", "" },
             };
-
-             ButtonsDown.Add(new ButtonForm { Name = "Ntcn46", com = wsSendCommand, Parameters = sendmess });
-
-
+            ButtonsDown = new List<ButtonForm>();
+            ButtonsDown.Add(new ButtonForm { Name = "Подключить", com = wsSendCommand, Parameters = sendmess });
         }
     }
 }

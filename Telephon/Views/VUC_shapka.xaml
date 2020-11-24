@@ -9,7 +9,7 @@
     <ListBox ItemsSource="{Binding .}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <ItemsControl  ItemsSource="{Binding fields}">
+                <ItemsControl  ItemsSource="{Binding}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel />
@@ -18,8 +18,8 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock   Width="50"  Text="{Binding name}"/>
-                                <TextBox     Width="100" Text="{Binding value}"/>
+                                <TextBlock   Width="200"  Text="{Binding name}"/>
+                                <TextBox     Width="400" Text="{Binding value}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
