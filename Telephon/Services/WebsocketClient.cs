@@ -14,17 +14,16 @@ namespace Telephon.Services
     public struct mess
     {
         public string action;      // имя функции
-        public string content;     // доп информация
+        public string content;     // доп информация get - получить данные, set - запиши данные
         public string sender;      // оправитель
         public string recipient;   // получатель
 
-        public string []parameters; // праметры к функции
+        public string []parameters; // праметры к функции get - id, set - структура данных, 
     }
     class WebsocketClient
     {
         public WebSocket websocket;
         public bool is_connected = false;
-        public Dispatcher ds; //главное окно приложения  
         public mess sendmes = new mess();
 
         public event Action<string> Anounesment;

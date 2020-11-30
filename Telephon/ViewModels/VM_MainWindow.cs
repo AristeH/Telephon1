@@ -1,4 +1,5 @@
 ﻿using DevExpress.Mvvm;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -19,15 +20,26 @@ namespace Telephon.ViewModels
         public grid grid { get; set; }
         public string Title { get; set; }
         public string EditBox { get; set; }
-        
+
+
+        public string[] ReturnData()
+        {
+           string[]  parameters = new[] { JsonConvert.SerializeObject(grid.dt).ToString(), 
+                           JsonConvert.SerializeObject(stroki).ToString(), };
+            return parameters;
+
+            
+        }
 
         void wsSendCommandExecute(mess sendmes)
         {
             if (!ws.is_connected)
             {
                 ws.initWebSocketClient("ws://127.0.0.1:8080/telephon");
-                ws.ds = Dispatcher.CurrentDispatcher;
             }
+            //Здесь передаем при необходимости данные в parameters  в зависимости от контента.
+           if (stroki != null)
+                sendmes.parameters = ReturnData();
             ws.sendMessage(sendmes);
         }
         bool wsSendCommandCanExecute(mess sendmes)
@@ -35,7 +47,8 @@ namespace Telephon.ViewModels
             return true;
         }
 
-        public void Show_String(string message) // Обработчик события соответствующий сигнатуре делегата. На него мы должны добавить ссылку.
+        // Обработчик события соответствующий сигнатуре делегата. На него мы должны добавить ссылку.
+        public void Show_String(string message) 
         {
             EditBox = message;
             string[] mass =  message.Split(";:");
@@ -49,8 +62,6 @@ namespace Telephon.ViewModels
                         stroki = FillCustomElements.ShapkaFill(xdoc.Element("UserForm"));
                         grid =  new grid(xdoc.Element("UserForm"));   
                         break;
-
-
             } 
         }
       
@@ -60,7 +71,6 @@ namespace Telephon.ViewModels
             ws.Anounesment += Show_String; // Добавляем ссылку на метод в событие.
             //ws.Announce("Вызов обработчика события успешен"); // Вызываем событие через метод Announce.
             ws.initWebSocketClient("ws://127.0.0.1:8080/telephon");
-            ws.ds = Dispatcher.CurrentDispatcher;
             wsSendCommand = new DelegateCommand<mess>(wsSendCommandExecute, wsSendCommandCanExecute);
             Title = "Телефоны";
             mess sendmess = new mess

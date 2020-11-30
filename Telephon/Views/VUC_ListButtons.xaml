@@ -17,7 +17,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                    <fa:ImageAwesome Height="12" Icon="Brands__500Px" Margin="0,0,3,0" Foreground="White"/>
+                    <fa:ImageAwesome Height="12" Icon="{Binding  Image}" Margin="0,0,3,0" Foreground="Violet"/>
                     <Button Content="{Binding Name}" Command="{Binding  com}" CommandParameter="{Binding Parameters}" />
                     </StackPanel> 
                     </DataTemplate>

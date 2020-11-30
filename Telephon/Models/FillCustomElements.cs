@@ -16,7 +16,13 @@ namespace Telephon.Models
             IList<ButtonForm> Buttons4 = new List<ButtonForm>();
             foreach (XElement stroca in parameters.Elements("buttonstop"))
             {
-                Buttons4.Add(new ButtonForm { Name = stroca.Element("name").Value, com = com1 });
+                mess sendmess = new mess
+                {
+                    action = "getform",
+                    content = "MainForm",
+                    parameters = new[] { "mainform", stroca.Element("parameters").Value },
+                };
+                Buttons4.Add(new ButtonForm { Name = stroca.Element("name").Value, Image = stroca.Element("image").Value, com = com1, Parameters = sendmess });
             }
             return Buttons4;
         }
@@ -24,16 +30,16 @@ namespace Telephon.Models
         // функция возвращает список полей содержащий имя, тип(или значение), роль доступа
         static public List<FieldSection> FieldsFill(XElement parameters)
         {
-                var afs = new List<FieldSection>(); 
-                foreach (XElement field in parameters.Elements("fields"))
-                {
-                    FieldSection fs = new FieldSection();
-                    fs.name = field.Element("name").Value;
+            var afs = new List<FieldSection>();
+            foreach (XElement field in parameters.Elements("fields"))
+            {
+                FieldSection fs = new FieldSection();
+                fs.name = field.Element("name").Value;
                 fs.value = field.Element("value").Value;
                 fs.tip = field.Element("tip").Value;
                 fs.buttons = field.Element("buttons").Value;
-                    afs.Add(fs);
-                }
+                afs.Add(fs);
+            }
             return afs;
         }
 
@@ -42,7 +48,7 @@ namespace Telephon.Models
             List<List<FieldSection>> stroki1 = new List<List<FieldSection>>();
             foreach (XElement stroca in parameters.Elements("stroki"))
             {
-                List<FieldSection> afs =  FieldsFill( stroca);
+                List<FieldSection> afs = FieldsFill(stroca);
                 stroki1.Add(afs);
             }
             return stroki1;
@@ -59,6 +65,6 @@ namespace Telephon.Models
         }
 
 
-        
+
     }
 }
