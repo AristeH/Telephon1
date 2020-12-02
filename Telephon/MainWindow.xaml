@@ -23,7 +23,7 @@
         </StatusBar>
 
         <GroupBox   Header="Список полей">
-            <View:VUC_shapka  DataContext="{Binding stroki,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" />
+            <View:VUC_shapka  DataContext="{Binding fields}" />
         </GroupBox>
         <GroupBox   Header="Список полей">
             <View:VUC_grid  DataContext="{Binding grid}"/>

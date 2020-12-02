@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Xml.Linq;
@@ -16,7 +17,7 @@ namespace Telephon.ViewModels
         public DelegateCommand<mess> wsSendCommand { get; private set; }
         public IList<ButtonForm> ButtonsTop { get; set; } = new List<ButtonForm>();
         public IList<ButtonForm> ButtonsDown { get; set; }
-        public List<List<FieldSection>> stroki { get; set; }
+        public ObservableCollection<List<FieldSection>> fields { get; set; }
         public grid grid { get; set; }
         public string Title { get; set; }
         public string EditBox { get; set; }
@@ -25,7 +26,7 @@ namespace Telephon.ViewModels
         public string[] ReturnData()
         {
            string[]  parameters = new[] { JsonConvert.SerializeObject(grid.dt).ToString(), 
-                           JsonConvert.SerializeObject(stroki).ToString(), };
+                           JsonConvert.SerializeObject(fields).ToString(), };
             return parameters;
 
             
@@ -38,7 +39,7 @@ namespace Telephon.ViewModels
                 ws.initWebSocketClient("ws://127.0.0.1:8080/telephon");
             }
             //Здесь передаем при необходимости данные в parameters  в зависимости от контента.
-           if (stroki != null)
+           if (fields != null)
                 sendmes.parameters = ReturnData();
             ws.sendMessage(sendmes);
         }
@@ -59,7 +60,7 @@ namespace Telephon.ViewModels
                         XDocument xdoc = XDocument.Parse(mass[1]);
                         ButtonsTop.Clear();
                         ButtonsTop = FillCustomElements.ButtonsFill( xdoc.Element("UserForm"), wsSendCommand); 
-                        stroki = FillCustomElements.ShapkaFill(xdoc.Element("UserForm"));
+                        fields = FillCustomElements.ShapkaFill(xdoc.Element("UserForm"));
                         grid =  new grid(xdoc.Element("UserForm"));   
                         break;
             } 

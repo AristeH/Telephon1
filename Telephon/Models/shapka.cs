@@ -11,7 +11,7 @@ namespace Telephon.Models
         {
             public List<FieldSection> fields { get; set; }
         }
-        public struct FieldSection
+        public class FieldSection
         {
             public string name { get; set; }
             public string value { get; set; }

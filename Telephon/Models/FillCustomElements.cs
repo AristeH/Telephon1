@@ -1,6 +1,7 @@
 ﻿using DevExpress.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Text;
 using System.Xml.Linq;
@@ -43,9 +44,10 @@ namespace Telephon.Models
             return afs;
         }
 
-        static public List<List<FieldSection>> ShapkaFill(XElement parameters)
+        static public ObservableCollection<List<FieldSection>> ShapkaFill(XElement parameters)
         {
-            List<List<FieldSection>> stroki1 = new List<List<FieldSection>>();
+
+            ObservableCollection<List<FieldSection>> stroki1 = new ObservableCollection<List<FieldSection>>();
             foreach (XElement stroca in parameters.Elements("stroki"))
             {
                 List<FieldSection> afs = FieldsFill(stroca);
