@@ -11,6 +11,7 @@ namespace Telephon.Models
     public class ButtonForm
     {
         public string Name { get; set; }
+        public string Title { get; set; }
         public mess Parameters { get; set; }
         public string Image { get; set; }
         public DelegateCommand<mess> com { get; set; }

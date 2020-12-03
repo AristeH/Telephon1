@@ -23,7 +23,7 @@ namespace Telephon.Models
                     content = "MainForm",
                     parameters = new[] { "mainform", stroca.Element("parameters").Value },
                 };
-                Buttons4.Add(new ButtonForm { Name = stroca.Element("name").Value, Image = stroca.Element("image").Value, com = com1, Parameters = sendmess });
+                Buttons4.Add(new ButtonForm { Name = stroca.Element("title").Value, Image = stroca.Element("image").Value, com = com1, Parameters = sendmess });
             }
             return Buttons4;
         }
